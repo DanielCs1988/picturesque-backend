@@ -6,6 +6,7 @@ import "./controllers/picture.controller";
 import {PictureRepository} from "./models/picture.model";
 import {PictureService} from "./services/picture.service";
 import {connect} from "mongoose";
+import {cors} from "./middleware/cors";
 
 connect(process.env.MONGODB_URI!, { useNewUrlParser: true });
 const port = process.env.PORT || 8080;
@@ -16,6 +17,7 @@ container.bind<PictureService>('PictureService').to(PictureService).inSingletonS
 
 const server = new InversifyExpressServer(container);
 server.setConfig(app => {
+    app.use(cors);
     app.use(json());
 });
 
